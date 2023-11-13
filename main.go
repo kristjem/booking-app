@@ -42,18 +42,31 @@ func main() {
 		fmt.Println("Enter number of tickets: ")
 		fmt.Scan(&userTickets)
 
-		remainingTickets = remainingTickets - userTickets
-		bookings = append(bookings, firstName+" "+lastName)
+		if userTickets <= remainingTickets {
 
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+			remainingTickets = remainingTickets - userTickets
+			bookings = append(bookings, firstName+" "+lastName)
 
-		firstNames := []string{}           // defines firstName as a "Slice" (dynamically sized array), indicated by the empty [], says its of type "string" and gives it an empty list {}
-		for _, booking := range bookings { // replace index with _, it indicates that we have a variable, but its not used
-			var names = strings.Fields(booking)
-			firstNames = append(firstNames, names[0])
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+
+			firstNames := []string{}           // defines firstName as a "Slice" (dynamically sized array), indicated by the empty [], says its of type "string" and gives it an empty list {}
+			for _, booking := range bookings { // replace index with _, it indicates that we have a variable, but its not used
+				var names = strings.Fields(booking)
+				firstNames = append(firstNames, names[0])
+			}
+
+			fmt.Printf("The first names of the bookings are: %v\n", firstNames)
+
+			if remainingTickets == 0 {
+				// end program
+				fmt.Println("Our conference is book out. Come back next year.")
+				break //breaks the indefinate for loop that keeps the application running
+			}
+		} else {
+
+			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
+			continue
 		}
-
-		fmt.Printf("The first names of the bookings are: %v\n", firstNames)
 	}
 }
