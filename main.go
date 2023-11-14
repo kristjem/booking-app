@@ -42,9 +42,26 @@ func main() {
 		fmt.Println("Enter number of tickets: ")
 		fmt.Scan(&userTickets)
 
-		remainingTickets = remainingTickets - userTickets
+		// This is actually a short for:
+		// var isValidName bool = len(firstName) >= 2 && len(lastName) >=2
+		// because Go understands its a declaration of a variable of the bool type:
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets // AND = &&
 
-		if userTickets < remainingTickets {
+		// Example of OR statement:
+		// isValidCity := city == "singapore" || city == "London"
+		//
+		// Also, we can tur the "postive check" around, by using ! in front of the variable, like this:
+		// !isValidCity
+		//
+		// That would equal to:
+		// isValidCity := city != "singapore" || city != "London"
+		//
+		// So now we could use !isValidCity to check if the "city" variable is NOT LIKE "singapore" OR "London"
+
+		if isValidName && isValidEmail && isValidTicketNumber {
+			remainingTickets = remainingTickets - userTickets
 			bookings = append(bookings, firstName+" "+lastName)
 			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
@@ -64,8 +81,11 @@ func main() {
 			}
 
 		} else {
+			if !isValidName {
+				fmt.Printf("The name you entered seems wrong. You typed %v %v\n", firstName, lastName)
+			}
 
-			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
+			fmt.Println("Your input data is invalid. Try again!")
 			continue
 		}
 	}
