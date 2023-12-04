@@ -5,18 +5,20 @@ import (
 	"strings"
 )
 
+// Package lever variables (accessible outside funkctions, e.g. "func main")
+const conferenceTickets = 50         // How many tickets are available. "const" can not be changed!
+var conferenceName = "Go Conference" // "var" is alowed to change.
+var remainingTickets uint = 50       // uint declares that the variable is an int but cannot be negative!
+// var bookings [conferenceTickets]string // Arrays: the square brackets [50] defines how many items the array can hold, here 50 items. Then we need to declare the type
+// var bookings []string // Slice. It is like an array, but the size of it is dynamic! Use Slices rather than arrays if you don't know the max size of the list.
+var bookings = []string{} // Declares bookings as a Slice (the square brackets have no value, max size), and the "array" of the slice is empty "{}"
+
 func main() {
 
 	// When assigning a var or const with a value simultaneously when declaring it, Go wil understand what type it is.
 	// E.g. conferenceName = "Go Conference" is understood to be a string
-	var conferenceName = "Go Conference" // "var" is alowed to change.
-	const conferenceTickets = 50         // How many tickets are available. "const" can not be changed!
-	var remainingTickets uint = 50       // uint declares that the variable is an int but cannot be negative!
-	// var bookings [conferenceTickets]string // Arrays: the square brackets [50] defines how many items the array can hold, here 50 items. Then we need to declare the type
-	// var bookings []string // Slice. It is like an array, but the size of it is dynamic! Use Slices rather than arrays if you don't know the max size of the list.
-	bookings := []string{} // Declares bookings as a Slice (the square brackets have no value, max size), and the "array" of the slice is empty "{}"
 
-	greetUsers(conferenceName, conferenceTickets, remainingTickets)
+	greetUsers()
 	// Two ways to print a text with variables:
 	// fmt.Println("Welcome to", conferenceName, "booking application")
 
@@ -33,14 +35,14 @@ func main() {
 		//
 		// So now we could use !isValidCity to check if the "city" variable is NOT LIKE "singapore" OR "London"
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			// Booking logic:
-			bookTicket(remainingTickets, userTickets, bookings, firstName, lastName, email, conferenceName)
+			bookTicket(userTickets, firstName, lastName, email)
 
 			// Print first names of bookings, calling a function:
-			firstNames := getFirstNames(bookings)
+			firstNames := getFirstNames()
 			fmt.Printf("The first names of the bookings are: %v\n", firstNames)
 
 			if remainingTickets == 0 {
@@ -65,12 +67,12 @@ func main() {
 
 }
 
-func greetUsers(confName string, conferenceTickets int, remainingTickets uint) {
-	fmt.Printf("Welcome to %v booking application\n", confName)
+func greetUsers() {
+	fmt.Printf("Welcome to %v booking application\n", conferenceName)
 	fmt.Printf("We have total of %v tickets and %v are still available\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend") // the ln in println indicates that a new line is added at the end of the print statement
 }
-func getFirstNames(bookings []string) []string { // Det som er inni () er input, etterpå output -> "[]string"
+func getFirstNames() []string { // Det som er inni () er input, etterpå output -> "[]string"
 	firstNames := []string{}           // defines firstName as a "Slice" (dynamically sized array), indicated by the empty [], says its of type "string" and gives it an empty list {}
 	for _, booking := range bookings { // replace index with _, it indicates that we have a variable, but its not used
 		var names = strings.Fields(booking)
@@ -78,7 +80,7 @@ func getFirstNames(bookings []string) []string { // Det som er inni () er input,
 	}
 	return firstNames
 }
-func validateUserInput(firstName string, lastName string, email string, userTickets uint, remainingTickets uint) (bool, bool, bool) {
+func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
 	// This is actually a short for:
 	// var isValidName bool = len(firstName) >= 2 && len(lastName) >=2
 	// because Go understands its a declaration of a variable of the bool type:
@@ -108,7 +110,7 @@ func getUserInput() (string, string, string, uint) {
 
 	return firstName, lastName, email, userTickets
 }
-func bookTicket(remainingTickets uint, userTickets uint, bookings []string, firstName string, lastName string, email string, conferenceName string) {
+func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 	remainingTickets = remainingTickets - userTickets
 	bookings = append(bookings, firstName+" "+lastName)
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
