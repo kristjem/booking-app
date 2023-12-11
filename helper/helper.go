@@ -2,7 +2,7 @@ package helper
 
 import "strings"
 
-func ValidateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
+func ValidateUserInput(firstName string, lastName string, email string, userTickets uint, remainingTickets uint) (bool, bool, bool) {
 	// This is actually a short for:
 	// var isValidName bool = len(firstName) >= 2 && len(lastName) >=2
 	// because Go understands its a declaration of a variable of the bool type:

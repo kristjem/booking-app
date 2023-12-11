@@ -36,7 +36,7 @@ func main() {
 		//
 		// So now we could use !isValidCity to check if the "city" variable is NOT LIKE "singapore" OR "London"
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			// Booking logic:
