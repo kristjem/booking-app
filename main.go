@@ -1,6 +1,7 @@
 package main
 
 import (
+	"booking-app/helper"
 	"fmt"
 	"strings"
 )
@@ -35,7 +36,7 @@ func main() {
 		//
 		// So now we could use !isValidCity to check if the "city" variable is NOT LIKE "singapore" OR "London"
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			// Booking logic:
@@ -80,15 +81,7 @@ func getFirstNames() []string { // Det som er inni () er input, etterpå output 
 	}
 	return firstNames
 }
-func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
-	// This is actually a short for:
-	// var isValidName bool = len(firstName) >= 2 && len(lastName) >=2
-	// because Go understands its a declaration of a variable of the bool type:
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets // AND = &&
-	return isValidName, isValidEmail, isValidTicketNumber
-}
+
 func getUserInput() (string, string, string, uint) {
 	var firstName string
 	var lastName string
