@@ -146,12 +146,12 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 func sendTicket(userTickets uint, firstName string, lastName string, email string) {
 
 	// for [deklarere og initialisere variabler i loopen];[betingelsen som bestemmer om loopen skal fortsette eller avslutte];[inkrement/dekrement, f.eks. øke variabel med 1]
-	// time.Sleep(10 * time.Second)
-	fmt.Printf("Sending confirmation email, please wait:\n")
-	for sec := 9; sec > 0; sec-- {
-		fmt.Printf("%v seconds left...\n", sec)
-		time.Sleep(1 * time.Second)
-	}
+	// fmt.Printf("Sending confirmation email, please wait:\n")
+	// for sec := 9; sec > 0; sec-- {
+	// 	fmt.Printf("%v seconds left...\n", sec)
+	// 	time.Sleep(1 * time.Second)
+	// }
+	time.Sleep(10 * time.Second)
 	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName) //fmt.Sprintf returns a string instead of just printing the string
 	fmt.Println("#################")
 	fmt.Printf("Email with tickets successfully sent:\n %v \nto email adress %v\n", ticket, email)
