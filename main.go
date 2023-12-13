@@ -54,7 +54,9 @@ func main() {
 		if isValidName && isValidEmail && isValidTicketNumber {
 			// Booking logic:
 			bookTicket(userTickets, firstName, lastName, email)
-			sendTicket(userTickets, firstName, lastName, email)
+			// the "go" keyword executes sendTicket in seperate thread, so the rest of the code doesn't have to wait for sendTicket to finish
+			// the "go" ("goroutine") is a lightweight thread managed by the Go runtime
+			go sendTicket(userTickets, firstName, lastName, email)
 			// Print first names of bookings, calling a function:
 			firstNames := getFirstNames()
 			fmt.Printf("The first names of the bookings are: %v\n", firstNames)
@@ -152,6 +154,6 @@ func sendTicket(userTickets uint, firstName string, lastName string, email strin
 	}
 	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName) //fmt.Sprintf returns a string instead of just printing the string
 	fmt.Println("#################")
-	fmt.Printf("Email with tickets successfully for:\n %v \nto email adress %v\n", ticket, email)
+	fmt.Printf("Email with tickets successfully sent:\n %v \nto email adress %v\n", ticket, email)
 	fmt.Println("#################")
 }
